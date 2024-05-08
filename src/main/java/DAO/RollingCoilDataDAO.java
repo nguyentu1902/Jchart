@@ -40,9 +40,6 @@ public class RollingCoilDataDAO extends ConnectToSinglestoreDB {
     public List<RollingCoilDataModel> findByCoilNo(String coilNo) {
         List<RollingCoilDataModel> lstRollingCoilData = new ArrayList<>();
         try {
-            // String sql = "SELECT  * from coil_data WHERE coil_no IS NULL OR coil_no LIKE ?";
-            // PreparedStatement statement = conn.prepareStatement(sql);
-            // statement.setString(1, "%" + coilNo + "%");
             String sql = "SELECT * from rolling_coil rc join rolling_coil_data rcd on rc.id = rcd.coil_id WHERE rc.coil_no LIKE ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + coilNo + "%");
@@ -54,7 +51,7 @@ public class RollingCoilDataDAO extends ConnectToSinglestoreDB {
                 rldm.setTime(rs.getString("time"));
                 rldm.setSeq(rs.getString("seq"));
                 rldm.setTemperature(rs.getInt("temperature"));
-                rldm.setTemperature(rs.getInt("thickness"));
+                rldm.setThickness(rs.getInt("thickness"));
                 lstRollingCoilData.add(rldm);
             }
         } catch (Exception e) {
