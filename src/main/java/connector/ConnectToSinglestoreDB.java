@@ -24,8 +24,4 @@ public class ConnectToSinglestoreDB {
             System.out.println(e);
         }
     }
-
-    public static void main(String[] args) throws SQLException {
-        ConnectToSinglestoreDB connectToSinglestoreDB = new ConnectToSinglestoreDB();
-    }
 }

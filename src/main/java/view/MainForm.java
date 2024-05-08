@@ -9,6 +9,7 @@ import DAO.RollingCoilDataDAO;
 import UIHelper.CustomHeaderRenderer;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -21,6 +22,8 @@ import model.RollingCoilModel;
  */
 public class MainForm extends javax.swing.JFrame {
     private boolean ckbThicknessIsChecked = true;
+    HashMap<Integer, Integer> hashMapDataTemperature = new HashMap<>();
+    HashMap<Integer, Integer> hashMapDataThickness   = new HashMap<>();
 
     /**
      * Creates new form MainForm
@@ -49,7 +52,7 @@ public class MainForm extends javax.swing.JFrame {
         ckbTemperature = new javax.swing.JCheckBox();
         ckbThickness = new javax.swing.JCheckBox();
         btnInquiry = new javax.swing.JButton();
-        graphTestJPanel1 = new chart.LineChartPanel();
+        lineChartRollingCoil = new chart.LineChartPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Training Form");
@@ -115,7 +118,7 @@ public class MainForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnInquiry, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
-                    .addComponent(graphTestJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lineChartRollingCoil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -131,7 +134,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(ckbTemperature)
                     .addComponent(ckbThickness))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(graphTestJPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lineChartRollingCoil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
@@ -157,9 +160,19 @@ public class MainForm extends javax.swing.JFrame {
         }
     }// GEN-LAST:event_ckbTemperatureActionPerformed
 
+    public void setDataChart(){
+        List<RollingCoilDataModel> lstCoilDataModels = new RollingCoilDataDAO().getAllRollingCoilData();
+        for (int i = 0; i < lstCoilDataModels.size(); i++) {
+            hashMapDataTemperature.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()), lstCoilDataModels.get(i).getTemperature());
+            hashMapDataThickness.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()), lstCoilDataModels.get(i).getThickness());
+        }
+    }
+    
     private void btnInquiryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnInquiryActionPerformed
         // TODO add your handling code here:
         loadDataTbl();
+        setDataChart();
+        lineChartRollingCoil.setData(ckbThicknessIsChecked, ckbThicknessIsChecked, hashMapDataTemperature, hashMapDataThickness);
     }// GEN-LAST:event_btnInquiryActionPerformed
 
     public void setColorHeaderTable() {
@@ -254,9 +267,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbbCoilNo;
     private javax.swing.JCheckBox ckbTemperature;
     private javax.swing.JCheckBox ckbThickness;
-    private chart.LineChartPanel graphTestJPanel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private chart.LineChartPanel lineChartRollingCoil;
     private javax.swing.JTable tblCoil;
     // End of variables declaration//GEN-END:variables
 }
