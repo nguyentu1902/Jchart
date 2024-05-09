@@ -14,9 +14,9 @@ public class RollingCoilDataDAO extends ConnectToSinglestoreDB {
     public List<RollingCoilDataModel> getAllRollingCoilData() {
         List<RollingCoilDataModel> lstRollingCoilData = new ArrayList<>();
         try {
-            String sql = "SELECT * from rolling_coil rc\r\n" + //
-                    "join rolling_coil_data rcd \r\n" + //
-                    "on rc.id = rcd.coil_id";
+            String sql = "SELECT * FROM rolling_coil rc" + 
+                                " JOIN rolling_coil_data rcd ON rc.id = rcd.coil_id" +
+                                " ORDER BY rcd.seq";
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
@@ -36,11 +36,13 @@ public class RollingCoilDataDAO extends ConnectToSinglestoreDB {
         return lstRollingCoilData;
     }
 
-
-    public List<RollingCoilDataModel> findByCoilNo(String coilNo) {
+    public List<RollingCoilDataModel> findRollingCoilDataByCoilNo(String coilNo) {
         List<RollingCoilDataModel> lstRollingCoilData = new ArrayList<>();
         try {
-            String sql = "SELECT * from rolling_coil rc join rolling_coil_data rcd on rc.id = rcd.coil_id WHERE rc.coil_no LIKE ?";
+            String sql = "SELECT * FROM rolling_coil rc" + 
+                            " JOIN rolling_coil_data rcd ON rc.id = rcd.coil_id" +
+                            " WHERE rc.coil_no LIKE (?)" +
+                            " ORDER BY rcd.seq";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + coilNo + "%");
             ResultSet rs = statement.executeQuery();

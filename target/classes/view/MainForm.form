@@ -147,17 +147,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Temperature"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ckbTemperatureActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="ckbThickness">
       <Properties>
         <Property name="text" type="java.lang.String" value="Thickness"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ckbThicknessActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnInquiry">
       <Properties>
