@@ -151,9 +151,9 @@ public class MainForm extends javax.swing.JFrame {
                 : rcdao.findRollingCoilDataByCoilNo(coilNo);
 
         for (int i = 0; i < lstCoilDataModels.size(); i++) {
-            hashMapDataTemperature.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()) / 100,
+            hashMapDataTemperature.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()),
                     lstCoilDataModels.get(i).getTemperature());
-            hashMapDataThickness.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()) / 100,
+            hashMapDataThickness.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()),
                     lstCoilDataModels.get(i).getThickness());
         }
 

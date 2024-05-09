@@ -2,7 +2,6 @@ package chart;
 
 import java.awt.Color;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -14,9 +13,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
-import DAO.RollingCoilDataDAO;
-import model.RollingCoilDataModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -32,6 +28,7 @@ import model.RollingCoilDataModel;
 public class LineChartPanel extends JPanel {
     XYSeries temperature = new XYSeries("temperature");
     XYSeries thickness = new XYSeries("thickness");
+    XYPlot plot = new XYPlot();
 
     public LineChartPanel() {
         initUI();
@@ -58,6 +55,10 @@ public class LineChartPanel extends JPanel {
                 thickness.add(entry.getKey(), entry.getValue());
             }
         }
+
+        plot.setDomainAxis(new NumberAxis("seq"));
+        plot.getDomainAxis().setLowerBound(0);
+        plot.getDomainAxis().setUpperBound(200);
     }
 
     private void initUI() {
@@ -68,20 +69,20 @@ public class LineChartPanel extends JPanel {
         dataThickness.addSeries(thickness);
 
         // construct the plot
-        XYPlot plot = new XYPlot();
         plot.setDataset(0, dataTemperature);
         plot.setDataset(1, dataThickness);
 
         XYLineAndShapeRenderer lineForTemperature = new XYLineAndShapeRenderer();
         lineForTemperature.setSeriesFillPaint(0, Color.RED);
         XYLineAndShapeRenderer lineForThickness = new XYLineAndShapeRenderer();
-        lineForTemperature.setSeriesFillPaint(0, Color.YELLOW);
+        lineForTemperature.setSeriesFillPaint(0, Color.BLUE);
 
         plot.setRenderer(0, lineForTemperature);
         plot.setRenderer(1, lineForThickness);
         plot.setRangeAxis(0, new NumberAxis("Temperature"));
         plot.setRangeAxis(1, new NumberAxis("Thickness"));
-        plot.setDomainAxis(new NumberAxis("seq"));
+
+
 
         // Map the data to the appropriate axis
         plot.mapDatasetToRangeAxis(0, 0);
