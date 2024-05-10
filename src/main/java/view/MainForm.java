@@ -150,14 +150,12 @@ public class MainForm extends javax.swing.JFrame {
     private void ckbTemperatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbTemperatureActionPerformed
         // TODO add your handling code here:
         ckbTemperatureStatus = ckbTemperature.isSelected();
-        ckbThicknessStatus  = ckbThickness.isSelected();
         setDataChart();
         lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature, hashMapDataThickness);
     }//GEN-LAST:event_ckbTemperatureActionPerformed
 
     private void ckbThicknessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbThicknessActionPerformed
         // TODO add your handling code here:
-        ckbTemperatureStatus = ckbTemperature.isSelected();
         ckbThicknessStatus  = ckbThickness.isSelected();
         setDataChart();
         lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature, hashMapDataThickness);
