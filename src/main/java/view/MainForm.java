@@ -12,8 +12,6 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import model.RollingCoilDataModel;
@@ -24,8 +22,8 @@ import model.RollingCoilModel;
  * @author User
  */
 public class MainForm extends javax.swing.JFrame {
-    private boolean ckbTemperatureStatus = true;
-    private boolean ckbThicknessStatus = true;
+    private boolean ckbTemperatureStatus = false;
+    private boolean ckbThicknessStatus = false;
     HashMap<Integer, Integer> hashMapDataTemperature = new HashMap<>();
     HashMap<Integer, Integer> hashMapDataThickness = new HashMap<>();
 
@@ -85,8 +83,18 @@ public class MainForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblCoil);
 
         ckbTemperature.setText("Temperature");
+        ckbTemperature.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ckbTemperatureActionPerformed(evt);
+            }
+        });
 
         ckbThickness.setText("Thickness");
+        ckbThickness.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ckbThicknessActionPerformed(evt);
+            }
+        });
 
         btnInquiry.setText("Inquiry");
         btnInquiry.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +147,22 @@ public class MainForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ckbTemperatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbTemperatureActionPerformed
+        // TODO add your handling code here:
+        ckbTemperatureStatus = ckbTemperature.isSelected();
+        ckbThicknessStatus  = ckbThickness.isSelected();
+        setDataChart();
+        lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature, hashMapDataThickness);
+    }//GEN-LAST:event_ckbTemperatureActionPerformed
+
+    private void ckbThicknessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbThicknessActionPerformed
+        // TODO add your handling code here:
+        ckbTemperatureStatus = ckbTemperature.isSelected();
+        ckbThicknessStatus  = ckbThickness.isSelected();
+        setDataChart();
+        lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature, hashMapDataThickness);
+    }//GEN-LAST:event_ckbThicknessActionPerformed
+
     public void setDataChart() {
         hashMapDataTemperature.clear();
         hashMapDataThickness.clear();
@@ -151,9 +175,9 @@ public class MainForm extends javax.swing.JFrame {
                 : rcdao.findRollingCoilDataByCoilNo(coilNo);
 
         for (int i = 0; i < lstCoilDataModels.size(); i++) {
-            hashMapDataTemperature.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()),
+            hashMapDataTemperature.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()) / 100,
                     lstCoilDataModels.get(i).getTemperature());
-            hashMapDataThickness.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()),
+            hashMapDataThickness.put(Integer.parseInt(lstCoilDataModels.get(i).getSeq()) / 100,
                     lstCoilDataModels.get(i).getThickness());
         }
 
@@ -162,10 +186,6 @@ public class MainForm extends javax.swing.JFrame {
     private void btnInquiryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnInquiryActionPerformed
         // TODO add your handling code here:
         loadDataTbl();
-        setDataChart();
-        ckbTemperatureStatus = ckbTemperature.isSelected();
-        ckbThicknessStatus  = ckbThickness.isSelected();
-        lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature, hashMapDataThickness);
     }// GEN-LAST:event_btnInquiryActionPerformed
 
     public void setColorHeaderTable() {

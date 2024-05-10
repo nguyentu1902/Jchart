@@ -56,9 +56,9 @@ public class LineChartPanel extends JPanel {
             }
         }
 
-        plot.setDomainAxis(new NumberAxis("seq"));
-        plot.getDomainAxis().setLowerBound(0);
-        plot.getDomainAxis().setUpperBound(200);
+        // plot.setDomainAxis(new NumberAxis("seq"));
+        // plot.getDomainAxis().setLowerBound(0);
+        // plot.getDomainAxis().setUpperBound(200);
     }
 
     private void initUI() {
@@ -76,6 +76,8 @@ public class LineChartPanel extends JPanel {
         lineForTemperature.setSeriesFillPaint(0, Color.RED);
         XYLineAndShapeRenderer lineForThickness = new XYLineAndShapeRenderer();
         lineForTemperature.setSeriesFillPaint(0, Color.BLUE);
+
+        plot.setDomainAxis(new NumberAxis("seq"));
 
         plot.setRenderer(0, lineForTemperature);
         plot.setRenderer(1, lineForThickness);
