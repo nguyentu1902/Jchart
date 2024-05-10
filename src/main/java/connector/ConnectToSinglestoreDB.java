@@ -18,7 +18,6 @@ public class ConnectToSinglestoreDB {
     public ConnectToSinglestoreDB(){
         try {
                 conn = DriverManager.getConnection("jdbc:singlestore://172.25.219.162:3309/rolling?user=root&password=5VMrvFZCa7astakjtOJDtYu2r1yJQ1S6");
-                System.out.println("Connect Success!");
         }
         catch (SQLException e) {
             System.out.println(e);

@@ -9,6 +9,9 @@ import DAO.RollingCoilDataDAO;
 import UIHelper.CustomHeaderRenderer;
 import java.awt.Color;
 import java.awt.Font;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +48,8 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         cbbCoilNo = new javax.swing.JComboBox<>();
@@ -65,19 +69,18 @@ public class MainForm extends javax.swing.JFrame {
         jLabel3.setText("Coil No:");
 
         tblCoil.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][] {
 
-            },
-            new String [] {
-                "Col No", "Time", "seq", "Temperature", "Thickness"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                },
+                new String[] {
+                        "Col No", "Time", "seq", "Temperature", "Thickness"
+                }) {
+            boolean[] canEdit = new boolean[] {
+                    false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(tblCoil);
@@ -106,60 +109,95 @@ public class MainForm extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ckbTemperature, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ckbThickness, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbbCoilNo, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnInquiry, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
-                    .addComponent(lineChartRollingCoil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(ckbTemperature, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(ckbThickness, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 71,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(cbbCoilNo, javax.swing.GroupLayout.PREFERRED_SIZE, 129,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnInquiry, javax.swing.GroupLayout.PREFERRED_SIZE, 141,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 874,
+                                                Short.MAX_VALUE)
+                                        .addComponent(lineChartRollingCoil, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(20, Short.MAX_VALUE)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbbCoilNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInquiry, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ckbTemperature)
-                    .addComponent(ckbThickness))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lineChartRollingCoil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(cbbCoilNo, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnInquiry, javax.swing.GroupLayout.PREFERRED_SIZE, 32,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(ckbTemperature)
+                                        .addComponent(ckbThickness))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lineChartRollingCoil, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                                .addGap(20, 20, 20)));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ckbTemperatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbTemperatureActionPerformed
+    private void ckbTemperatureActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_ckbTemperatureActionPerformed
         // TODO add your handling code here:
+        // Capture the start time before executing any logic
+        LocalDateTime startTime = LocalDateTime.now();
+
+        // Your handling code goes here...
         ckbTemperatureStatus = ckbTemperature.isSelected();
         setDataChart();
-        lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature, hashMapDataThickness);
-    }//GEN-LAST:event_ckbTemperatureActionPerformed
+        lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature,
+                hashMapDataThickness);
 
-    private void ckbThicknessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbThicknessActionPerformed
+        // Capture the end time after executing the logic
+        LocalDateTime endTime = LocalDateTime.now();
+
+        // Format the current time using the formatter
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+
+        // Calculate the duration between start and end times
+        Duration duration = Duration.between(startTime, endTime);
+
+        // Print the duration
+        System.out.println("Duration draw line of Temperature: " + duration.toMillis() + " milliseconds");
+    }// GEN-LAST:event_ckbTemperatureActionPerformed
+
+    private void ckbThicknessActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_ckbThicknessActionPerformed
         // TODO add your handling code here:
-        ckbThicknessStatus  = ckbThickness.isSelected();
+        LocalDateTime startTime = LocalDateTime.now();
+
+        ckbThicknessStatus = ckbThickness.isSelected();
         setDataChart();
-        lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature, hashMapDataThickness);
-    }//GEN-LAST:event_ckbThicknessActionPerformed
+        lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature,
+                hashMapDataThickness);
+
+        LocalDateTime endTime = LocalDateTime.now();
+        Duration duration = Duration.between(startTime, endTime);
+        System.out.println("Duration draw line of Thickness: " + duration.toMillis() + " miliseconds");
+    }// GEN-LAST:event_ckbThicknessActionPerformed
 
     public void setDataChart() {
         hashMapDataTemperature.clear();
@@ -200,15 +238,14 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     public void loadDataTbl() {
-        String coilNo = cbbCoilNo.getSelectedItem().toString();
 
+        LocalDateTime currentTimeStart = LocalDateTime.now();
+
+        String coilNo = cbbCoilNo.getSelectedItem().toString();
         // load data to tblCoilData
         RollingCoilDataDAO rollingCoilDataDAO = new RollingCoilDataDAO();
         DefaultTableModel dfTblCoil = (DefaultTableModel) this.tblCoil.getModel();
         dfTblCoil.setRowCount(0);
-        // List<CoilDataModel> lstCoilDataModels = coilNo.equals("*") ?
-        // coilDataDao.getAllCoilData() : coilDataDao.findByCoilNo(coilNo);
-
         List<RollingCoilDataModel> lstRollingCoilData = coilNo.equals("*")
                 ? rollingCoilDataDAO.getAllRollingCoilData()
                 : rollingCoilDataDAO.findRollingCoilDataByCoilNo(coilNo);
@@ -219,7 +256,11 @@ public class MainForm extends javax.swing.JFrame {
             dfTblCoil.addRow(row);
         }
 
-        System.out.println("total rows: " + dfTblCoil.getRowCount());
+        // System.out.println("total rows: " + dfTblCoil.getRowCount());
+        LocalDateTime currentTimeEnd = LocalDateTime.now();
+        Duration duration = Duration.between(currentTimeStart, currentTimeEnd);
+        System.out.println("Duration to load table: " + duration.toMillis() + " milliseconds");
+
     }
 
     public void loadDataCbb() {
