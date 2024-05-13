@@ -1,35 +1,29 @@
 package chart;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
-
-import org.jfree.chart.ChartMouseEvent;
-import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.time.DateRange;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Slider;
-import javax.swing.event.*;
+import javax.swing.event.ChangeListener;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -41,10 +35,17 @@ import javax.swing.event.*;
  * @author User
  */
 
-public class LineChartPanel extends JPanel {
+public class LineChartPanel extends JPanel implements ChangeListener {
+    private static int SLIDER_INITIAL_VALUE = 50;
+    private JSlider slider;
+    private NumberAxis domainAxisSeq;
+    private int lastValue = SLIDER_INITIAL_VALUE;
     private XYSeries temperature = new XYSeries("temperature");
     private XYSeries thickness = new XYSeries("thickness");
     private XYPlot plot = new XYPlot();
+
+    // one month (milliseconds, seconds, minutes, hours, days)
+    private int delta = 20;
 
     public LineChartPanel() {
         initUI();
@@ -70,7 +71,6 @@ public class LineChartPanel extends JPanel {
                 thickness.add(entry.getKey(), entry.getValue());
             }
         }
-
     }
 
     private void initUI() {
@@ -89,9 +89,10 @@ public class LineChartPanel extends JPanel {
         XYLineAndShapeRenderer lineForThickness = new XYLineAndShapeRenderer();
         lineForTemperature.setSeriesFillPaint(0, Color.BLUE);
 
-        NumberAxis domainAxix = new NumberAxis("seq");
-        domainAxix.setTickUnit(new NumberTickUnit(50));
-        plot.setDomainAxis(domainAxix);
+        domainAxisSeq = new NumberAxis("seq");
+        domainAxisSeq.setTickUnit(new NumberTickUnit(20));
+        
+        plot.setDomainAxis(domainAxisSeq);
 
         plot.setRenderer(0, lineForTemperature);
         plot.setRenderer(1, lineForThickness);
@@ -109,18 +110,62 @@ public class LineChartPanel extends JPanel {
 
         // NEW PART THAT MAKES IT WORK
         ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setDomainZoomable(true);
+        chartPanel.setRangeZoomable(true);
         chartPanel.setPreferredSize(new Dimension(1150, 400));
 
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         chartPanel.setBackground(Color.white);
 
+        JPanel sliderPanel = new JPanel(new BorderLayout());
+        sliderPanel.setBorder(BorderFactory.createEmptyBorder(0, 4, 4, 4));
+        this.slider = new JSlider(0, 100, SLIDER_INITIAL_VALUE);
+        this.slider.addChangeListener(this);
+        sliderPanel.add(this.slider, BorderLayout.SOUTH);
 
-        add(chartPanel);
+        this.setLayout(new BorderLayout());
+        this.add(chartPanel, BorderLayout.CENTER);
+        this.add(sliderPanel, BorderLayout.SOUTH);
 
+        this.setBorder(BorderFactory.createEmptyBorder(0, 4, 4, 4));
+
+        // add(chartPanel, BorderLayout.SOUTH);
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                updatePreferredSize();
+            }
+        });
         // pack();
         // setTitle("Line chart");
         // setLocationRelativeTo(null);
         // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void updatePreferredSize() {
+        int width = getParent().getWidth();
+        int height = getPreferredSize().height;
+        setPreferredSize(new Dimension(width, height));
+        revalidate();
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        // TODO Auto-generated method stub
+        int value = this.slider.getValue();
+        double minimum = domainAxisSeq.getLowerBound();
+        double maximum = domainAxisSeq.getUpperBound();
+        if (value < lastValue) {
+            minimum -= delta;
+            maximum -= delta;
+        } else {
+            minimum += delta;
+            maximum += delta;
+        }
+        Range range = new Range(minimum, maximum);
+        domainAxisSeq.setRange(range);
+        lastValue = value;
     }
 
 }
