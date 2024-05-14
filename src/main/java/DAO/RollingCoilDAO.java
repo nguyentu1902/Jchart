@@ -4,17 +4,21 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import connector.ConnectToSinglestoreDB;
 import model.RollingCoilModel;
 
-public class RollingCoilDAO extends ConnectToSinglestoreDB {
+public class RollingCoilDAO{
+    private ConnectToSinglestoreDB connectToSinglestoreDB;
+
+    public RollingCoilDAO(){
+        connectToSinglestoreDB = ConnectToSinglestoreDB.getInstance();
+    }
 
     public List<RollingCoilModel> getAllRollingCoil() {
         List<RollingCoilModel> lstRollingCoil = new ArrayList<>();
         try {
             String sql = "SELECT * FROM rolling_coil";
-            Statement statement = conn.createStatement();
+            Statement statement = connectToSinglestoreDB.conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 RollingCoilModel rcm = new RollingCoilModel();

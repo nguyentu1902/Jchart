@@ -9,7 +9,12 @@ import java.util.List;
 import connector.ConnectToSinglestoreDB;
 import model.RollingCoilDataModel;
 
-public class RollingCoilDataDAO extends ConnectToSinglestoreDB {
+public class RollingCoilDataDAO{
+    private ConnectToSinglestoreDB connectToSinglestoreDB;
+
+    public RollingCoilDataDAO(){
+        connectToSinglestoreDB = ConnectToSinglestoreDB.getInstance();
+    }
 
     public List<RollingCoilDataModel> getAllRollingCoilData() {
         List<RollingCoilDataModel> lstRollingCoilData = new ArrayList<>();
@@ -17,7 +22,7 @@ public class RollingCoilDataDAO extends ConnectToSinglestoreDB {
             String sql = "SELECT * FROM rolling_coil rc" + 
                                 " JOIN rolling_coil_data rcd ON rc.id = rcd.coil_id" +
                                 " ORDER BY rcd.seq";
-            Statement statement = conn.createStatement();
+            Statement statement = connectToSinglestoreDB.conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 RollingCoilDataModel rldm = new RollingCoilDataModel();
@@ -43,7 +48,7 @@ public class RollingCoilDataDAO extends ConnectToSinglestoreDB {
                             " JOIN rolling_coil_data rcd ON rc.id = rcd.coil_id" +
                             " WHERE rc.coil_no LIKE (?)" +
                             " ORDER BY rcd.seq";
-            PreparedStatement statement = conn.prepareStatement(sql);
+            PreparedStatement statement = connectToSinglestoreDB.conn.prepareStatement(sql);
             statement.setString(1, "%" + coilNo + "%");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
