@@ -156,26 +156,18 @@ public class MainForm extends javax.swing.JFrame {
 
     private void ckbTemperatureActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_ckbTemperatureActionPerformed
         // TODO add your handling code here:
-        // Capture the start time before executing any logic
         LocalDateTime startTime = LocalDateTime.now();
 
-        // Your handling code goes here...
         ckbTemperatureStatus = ckbTemperature.isSelected();
         setDataChart();
         lineChartRollingCoil.setData(ckbTemperatureStatus, ckbThicknessStatus, hashMapDataTemperature,
                 hashMapDataThickness);
 
-        // Capture the end time after executing the logic
+
         LocalDateTime endTime = LocalDateTime.now();
-
-        // Format the current time using the formatter
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-
-        // Calculate the duration between start and end times
         Duration duration = Duration.between(startTime, endTime);
-
-        // Print the duration
-        System.out.println("Duration draw line of Temperature: " + duration.toMillis() + " milliseconds");
+        if(ckbTemperatureStatus)
+            System.out.println("Duration draw line of Temperature: " + duration.toMillis() + " milliseconds");
     }// GEN-LAST:event_ckbTemperatureActionPerformed
 
     private void ckbThicknessActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_ckbThicknessActionPerformed
@@ -189,7 +181,8 @@ public class MainForm extends javax.swing.JFrame {
 
         LocalDateTime endTime = LocalDateTime.now();
         Duration duration = Duration.between(startTime, endTime);
-        System.out.println("Duration draw line of Thickness: " + duration.toMillis() + " miliseconds");
+        if(ckbThicknessStatus)
+            System.out.println("Duration draw line of Thickness: " + duration.toMillis() + " miliseconds");
     }// GEN-LAST:event_ckbThicknessActionPerformed
 
     public void setDataChart() {
