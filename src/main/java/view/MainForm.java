@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.RollingCoilDataModel;
 import model.RollingCoilModel;
@@ -230,18 +231,27 @@ public class MainForm extends javax.swing.JFrame {
         String coilNo = cbbCoilNo.getSelectedItem().toString();
         // load data to tblCoilData
         RollingCoilDataDAO rollingCoilDataDAO = new RollingCoilDataDAO();
-        DefaultTableModel dfTblCoil = (DefaultTableModel) this.tblCoil.getModel();
-        dfTblCoil.setRowCount(0);
-        List<RollingCoilDataModel> lstRollingCoilData = coilNo.equals("*")
-                ? rollingCoilDataDAO.getAllRollingCoilData()
-                : rollingCoilDataDAO.findRollingCoilDataByCoilNo(coilNo);
 
-        for (RollingCoilDataModel rcdm : lstRollingCoilData) {
-            Object[] row = new Object[] { rcdm.getCoilNo(), rcdm.getTime(), rcdm.getSeq(), rcdm.getTemperature(),
-                    rcdm.getThickness() };
-            dfTblCoil.addRow(row);
+        try {
+            DefaultTableModel dfTblCoil = (DefaultTableModel) this.tblCoil.getModel();
+            dfTblCoil.setRowCount(0);
+            List<RollingCoilDataModel> lstRollingCoilData = coilNo.equals("*")
+                    ? rollingCoilDataDAO.getAllRollingCoilData()
+                    : rollingCoilDataDAO.findRollingCoilDataByCoilNo(coilNo);
+    
+            for (RollingCoilDataModel rcdm : lstRollingCoilData) {
+                Object[] row = new Object[] { rcdm.getCoilNo(), rcdm.getTime(), rcdm.getSeq(), rcdm.getTemperature(),
+                        rcdm.getThickness() };
+                dfTblCoil.addRow(row);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
+
+
+
+        
         // System.out.println("total rows: " + dfTblCoil.getRowCount());
         LocalDateTime currentTimeEnd = LocalDateTime.now();
         Duration duration = Duration.between(currentTimeStart, currentTimeEnd);
@@ -250,16 +260,20 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     public void loadDataCbb() {
-        // load data to cbbCoil
         RollingCoilDAO rcdao = new RollingCoilDAO();
-        List<RollingCoilModel> lstRollingCoil = rcdao.getAllRollingCoil();
-        DefaultComboBoxModel cbbCoilNo = new DefaultComboBoxModel();
-        cbbCoilNo.addElement("*");
-
-        for (RollingCoilModel dataCoil : lstRollingCoil) {
-            cbbCoilNo.addElement(dataCoil.getCoilNo());
+        try {
+            List<RollingCoilModel> lstRollingCoil = rcdao.getAllRollingCoil();
+            DefaultComboBoxModel cbbCoilNo = new DefaultComboBoxModel();
+            cbbCoilNo.addElement("*");
+    
+            for (RollingCoilModel dataCoil : lstRollingCoil) {
+                cbbCoilNo.addElement(dataCoil.getCoilNo());
+            }
+            this.cbbCoilNo.setModel(cbbCoilNo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        this.cbbCoilNo.setModel(cbbCoilNo);
+
     }
 
     /**
