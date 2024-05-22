@@ -50,7 +50,7 @@ public class LineChartPanel extends JPanel implements ChangeListener {
     }
 
     public void setData(Boolean isCheckTemp, Boolean isCheckThickness, HashMap<Integer, Integer> hashMapDataTemperature,
-            HashMap<Integer, Integer> hashMapDataThickness) {
+        HashMap<Integer, Integer> hashMapDataThickness) {
         temperature.clear();
         thickness.clear();
         if (isCheckTemp && isCheckThickness) {
